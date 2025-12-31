@@ -16,6 +16,7 @@ const SplineViewer = dynamic(() => import('./components/SplineViewer'), {
 export default function Home() {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -131,28 +132,89 @@ export default function Home() {
                   </svg>
                 )}
               </button>
-              <button className={`transition-colors ${themeClasses.mobileMenu}`}>
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+              <button 
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className={`transition-colors ${themeClasses.mobileMenu}`}
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? (
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                ) : (
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                )}
               </button>
             </div>
           </div>
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className={`md:hidden border-t transition-colors duration-300 ${theme === 'dark' ? 'border-white/5 bg-black/95' : 'border-gray-200 bg-white/95'}`}>
+            <div className="px-6 py-4 space-y-3">
+              <a 
+                href="#company" 
+                onClick={(e) => {
+                  smoothScrollTo(e, '#company');
+                  setMobileMenuOpen(false);
+                }} 
+                className={`block py-2 text-sm font-medium tracking-wide transition-colors ${themeClasses.link}`}
+              >
+                COMPANY
+              </a>
+              <a 
+                href="#services" 
+                onClick={(e) => {
+                  smoothScrollTo(e, '#services');
+                  setMobileMenuOpen(false);
+                }} 
+                className={`block py-2 text-sm font-medium tracking-wide transition-colors ${themeClasses.link}`}
+              >
+                SERVICES
+              </a>
+              <a 
+                href="#projects" 
+                onClick={(e) => {
+                  smoothScrollTo(e, '#projects');
+                  setMobileMenuOpen(false);
+                }} 
+                className={`block py-2 text-sm font-medium tracking-wide transition-colors ${themeClasses.link}`}
+              >
+                PROJECTS
+              </a>
+              <a 
+                href="#contact" 
+                onClick={(e) => {
+                  smoothScrollTo(e, '#contact');
+                  setMobileMenuOpen(false);
+                }} 
+                className={`block py-2 text-sm font-medium tracking-wide transition-colors ${themeClasses.link}`}
+              >
+                CONTACT
+              </a>
+              <button className={`w-full px-6 py-2.5 text-sm font-medium rounded-full transition-colors ${themeClasses.button} mt-2`}>
+                GET STARTED
+              </button>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
-      <main className="relative pt-0 overflow-hidden">
-        <div className="max-w-[2020px] mx-auto px-6 lg:px-35 py-0 -mt-29">
-          <div className="grid lg:grid-cols-2 gap-0 items-center">
-          <div className="max-w-4xl px-6 lg:px-8">
+      <main className="relative pt-20 sm:pt-24 md:pt-0 overflow-hidden">
+        <div className="max-w-[2020px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-0 md:-mt-29">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-0 items-center">
+          <div className="max-w-4xl px-0 sm:px-4 lg:pl-40 lg:pr-16">
             {/* Badge */}
             <div className="inline-flex items-center px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/5 mb-8">
               <span className="text-purple-400 text-sm font-medium tracking-wide">INTRODUCING </span>
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight tracking-tight mb-8">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight tracking-tight mb-6 md:mb-8">
               BUSINESS
               <br />
               DEVELOPMENT
@@ -161,7 +223,7 @@ export default function Home() {
             </h1>
 
             {/* Subheading */}
-            <p className={`text-lg md:text-xl max-w-2xl mb-12 leading-relaxed ${themeClasses.text}`}>
+            <p className={`text-base sm:text-lg md:text-xl max-w-2xl mb-8 md:mb-12 leading-relaxed ${themeClasses.text}`}>
               Transforming businesses into industry leaders through integrated digital solutions, 
               systematic execution, and scalable technology infrastructure.
             </p>
@@ -178,7 +240,7 @@ export default function Home() {
           </div>
 
           {/* Spline 3D Viewer - Right Side */}
-          <div className="hidden lg:flex items-center justify-end relative h-[1200px] w-full -mr-[160px]">
+          <div className="hidden lg:flex items-center justify-start relative h-[1200px] w-full -ml-[80px] -mr-[160px]">
             <SplineViewer url="https://prod.spline.design/k7M5quOXzDN948AN/scene.splinecode" />
           </div>
           </div>
@@ -189,18 +251,21 @@ export default function Home() {
         <div className="absolute top-20 right-20 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
       </main>
 
+      {/* Section Divider */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+
       {/* Company Overview Section */}
-      <section id="company" className={`relative py-24 transition-colors duration-300 ${themeClasses.sectionBg}`}>
+      <section id="company" className={`relative py-12 sm:py-16 md:py-20 lg:py-24 transition-colors duration-300 ${themeClasses.sectionBg}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Section Header */}
           <div className="text-center mb-20">
             <div className="inline-flex items-center px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/5 mb-6">
               <span className="text-purple-400 text-sm font-medium tracking-wide">WHO WE ARE</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 tracking-tight">
               Company <span className="text-purple-500">Overview</span>
             </h2>
-            <p className={`text-lg max-w-3xl mx-auto leading-relaxed ${
+            <p className={`text-base sm:text-lg max-w-3xl mx-auto leading-relaxed ${
               theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
             }`}>
               BizMaster is a strategic business development partner dedicated to elevating companies 
@@ -209,35 +274,35 @@ export default function Home() {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
-            <div className={`text-center p-6 rounded-2xl border transition-colors duration-300 ${
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-12 md:mb-20">
+            <div className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
               theme === 'dark' ? 'bg-gradient-to-br from-purple-900/20 to-purple-800/10 border-purple-500/10' : 'bg-gradient-to-br from-purple-100 to-purple-50 border-purple-200'
             }`}>
-              <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-2">10+</div>
-              <div className={`text-sm tracking-wide ${
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-400 mb-1 sm:mb-2">10+</div>
+              <div className={`text-xs sm:text-sm tracking-wide ${
                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
               }`}>Years Experience</div>
             </div>
-            <div className={`text-center p-6 rounded-2xl border transition-colors duration-300 ${
+            <div className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
               theme === 'dark' ? 'bg-gradient-to-br from-purple-900/20 to-purple-800/10 border-purple-500/10' : 'bg-gradient-to-br from-purple-100 to-purple-50 border-purple-200'
             }`}>
-              <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-2">500+</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-400 mb-1 sm:mb-2">500+</div>
               <div className={`text-sm tracking-wide ${
                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
               }`}>Projects Delivered</div>
             </div>
-            <div className={`text-center p-6 rounded-2xl border transition-colors duration-300 ${
+            <div className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
               theme === 'dark' ? 'bg-gradient-to-br from-purple-900/20 to-purple-800/10 border-purple-500/10' : 'bg-gradient-to-br from-purple-100 to-purple-50 border-purple-200'
             }`}>
-              <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-2">200+</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-400 mb-1 sm:mb-2">200+</div>
               <div className={`text-sm tracking-wide ${
                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
               }`}>Happy Clients</div>
             </div>
-            <div className={`text-center p-6 rounded-2xl border transition-colors duration-300 ${
+            <div className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
               theme === 'dark' ? 'bg-gradient-to-br from-purple-900/20 to-purple-800/10 border-purple-500/10' : 'bg-gradient-to-br from-purple-100 to-purple-50 border-purple-200'
             }`}>
-              <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-2">98%</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-400 mb-1 sm:mb-2">98%</div>
               <div className={`text-sm tracking-wide ${
                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
               }`}>Success Rate</div>
@@ -245,7 +310,7 @@ export default function Home() {
           </div>
 
           {/* Core Values Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {/* Mission */}
             <div className={`p-8 rounded-2xl border transition-all duration-300 ${
               theme === 'dark' ? 'bg-gradient-to-br from-purple-900/10 to-transparent border-purple-500/10 hover:border-purple-500/30' : 'bg-gradient-to-br from-purple-50 to-transparent border-purple-200 hover:border-purple-400'
@@ -310,8 +375,11 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/5 rounded-full blur-3xl pointer-events-none" />
       </section>
 
+      {/* Section Divider */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+
       {/* Services Section */}
-      <section id="services" className={`relative py-24 transition-colors duration-300 ${
+      <section id="services" className={`relative py-12 sm:py-16 md:py-20 lg:py-24 transition-colors duration-300 ${
         theme === 'dark' ? 'bg-black' : 'bg-white'
       }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -320,7 +388,7 @@ export default function Home() {
             <div className="inline-flex items-center px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/5 mb-6">
               <span className="text-purple-400 text-sm font-medium tracking-wide">WHAT WE OFFER</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 tracking-tight">
               Our <span className="text-purple-500">Services</span>
             </h2>
             <p className={`text-lg max-w-3xl mx-auto leading-relaxed ${
@@ -335,7 +403,7 @@ export default function Home() {
             <h3 className="text-3xl md:text-4xl font-bold mb-12 text-center">
               Service <span className="text-purple-500">Portfolio</span>
             </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
               {/* Digital Strategy */}
               <div className="group p-8 rounded-2xl bg-gradient-to-br from-purple-900/10 to-transparent border border-purple-500/10 hover:border-purple-500/30 hover:bg-purple-900/20 transition-all duration-300">
                 <div className="w-14 h-14 rounded-xl bg-purple-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -672,7 +740,7 @@ export default function Home() {
                   <span className="text-4xl">🌐</span>
                   Web Development Main Technologies
                 </h4>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
                   <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
                     <div className="text-6xl mb-4">⚛️</div>
                     <div className="text-base font-semibold text-white">React.js</div>
@@ -732,7 +800,7 @@ export default function Home() {
                   <span className="text-4xl">📱</span>
                   Mobile App Main Technologies
                 </h4>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
                   <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
                     <div className="text-6xl mb-4">📱</div>
                     <div className="text-base font-semibold text-white">React Native</div>
@@ -792,7 +860,7 @@ export default function Home() {
                   <span className="text-4xl">🏪</span>
                   POS Main Technologies
                 </h4>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
                   <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
                     <div className="text-6xl mb-4">💻</div>
                     <div className="text-base font-semibold text-white">Electron.js</div>
@@ -854,8 +922,11 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
       </section>
 
+      {/* Section Divider */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+
       {/* Projects / Case Studies Section */}
-      <section id="projects" className={`relative py-24 transition-colors duration-300 overflow-visible ${
+      <section id="projects" className={`relative py-12 sm:py-16 md:py-20 lg:py-24 transition-colors duration-300 overflow-visible ${
         theme === 'dark' ? 'bg-gradient-to-b from-black via-purple-950/10 to-black' : 'bg-gradient-to-b from-gray-50 via-purple-50 to-gray-50'
       }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 overflow-visible">
@@ -864,7 +935,7 @@ export default function Home() {
             <div className="inline-flex items-center px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/5 mb-6">
               <span className="text-purple-400 text-sm font-medium tracking-wide">OUR WORK</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 tracking-tight">
               Case Studies & <span className="text-purple-500">Sample Projects</span>
             </h2>
             <p className={`text-lg max-w-3xl mx-auto leading-relaxed ${
@@ -878,7 +949,7 @@ export default function Home() {
           </div>
 
           {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 pt-2">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-12 md:mb-16 pt-2">
             {/* Project 1: Metro Bus */}
             <div className="rounded-3xl bg-gradient-to-br from-purple-900/20 to-transparent border border-purple-500/20 overflow-hidden hover:border-purple-400 hover:-translate-y-1 transition-all duration-200">
               {/* Project Image Placeholder */}
@@ -2145,8 +2216,11 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/5 rounded-full blur-3xl pointer-events-none" />
       </section>
 
+      {/* Section Divider */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+
       {/* Contact Section */}
-      <section id="contact" className={`relative py-24 transition-colors duration-300 ${
+      <section id="contact" className={`relative py-12 sm:py-16 md:py-20 lg:py-24 transition-colors duration-300 ${
         theme === 'dark' ? 'bg-black' : 'bg-white'
       }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -2159,7 +2233,7 @@ export default function Home() {
           </div>
 
           {/* Contact Cards Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
             {/* Email Card */}
             <div className={`group p-8 rounded-3xl transition-all duration-300 hover:bg-purple-900/20 text-center ${
               theme === 'dark' 
@@ -2277,6 +2351,9 @@ export default function Home() {
         <div className="absolute bottom-20 right-20 w-72 h-72 bg-purple-600/5 rounded-full blur-3xl pointer-events-none" />
       </section>
 
+      {/* Section Divider */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+
       {/* Footer */}
       <footer className={`relative border-t transition-colors duration-300 ${
         theme === 'dark' 
@@ -2284,7 +2361,7 @@ export default function Home() {
           : 'bg-white border-gray-200'
       }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
             {/* Company Info */}
             <div>
               <h3 className="text-2xl font-bold tracking-wider mb-4">
@@ -2442,6 +2519,21 @@ export default function Home() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
