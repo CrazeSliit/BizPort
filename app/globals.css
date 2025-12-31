@@ -12,23 +12,104 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overflow-x: hidden;
 }
 
 * {
   scroll-behavior: smooth;
 }
 
-/* Hide Spline branding - multiple methods */
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* GPU acceleration for smooth animations */
+.transition-colors,
+.transition-all,
+.hover\:scale-105,
+.hover\:scale-110,
+.group-hover\:scale-110 {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize backdrop blur */
+.backdrop-blur-sm {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transform: translateZ(0);
+}
+
+/* Smooth scrolling for all browsers */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  * {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Content visibility for better rendering performance */
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+  overflow: visible;
+}
+
+/* Optimize images and media */
+img, video, iframe {
+  content-visibility: auto;
+}
+
+/* Optimize grid layouts */
+.grid {
+  contain: layout style paint;
+  overflow: visible;
+}
+
+/* Hardware acceleration for common animations */
+.hover\:shadow-2xl,
+.hover\:shadow-lg,
+.group-hover\:scale-110,
+.hover\:scale-105 {
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+}
+
+/* Hide Spline branding - nuclear option */
 spline-viewer {
-  position: relative;
+  position: relative !important;
 }
 
 spline-viewer::part(logo) {
   display: none !important;
+  opacity: 0 !important;
 }
 
 spline-viewer #logo {
@@ -40,6 +121,50 @@ spline-viewer *[class*="logo"],
 spline-viewer *[class*="branding"],
 spline-viewer *[id*="logo"],
 spline-viewer *[id*="branding"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Additional coverage - hide bottom-left corner elements */
+spline-viewer > div:first-child > *:last-child {
+  display: none !important;
+}
+
+/* Target the bottom-right corner where the logo appears */
+spline-viewer > *:last-child,
+spline-viewer > div > *:last-child,
+spline-viewer canvas + *,
+spline-viewer canvas ~ * {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Hide all absolute positioned elements in bottom corners */
+spline-viewer [style*="position: absolute"],
+spline-viewer [style*="position:absolute"],
+spline-viewer div[style*="bottom"],
+spline-viewer a[style*="bottom"],
+spline-viewer div[style*="right"],
+spline-viewer a[style*="right"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Specific targeting for Spline logo positioning */
+spline-viewer > div > div:last-child,
+spline-viewer > div > a:last-child {
+  display: none !important;
+}
+
+/* Cover all possible logo containers */
+spline-viewer *[href*="spline"],
+spline-viewer *[href*="design"] {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;
