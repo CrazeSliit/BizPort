@@ -2387,7 +2387,7 @@ export default function Home() {
                   <a href="mailto:contact@bizmaster-solutions.com" className={`text-sm transition-colors ${
                     theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
                   }`}>
-                    contact@bizmaster-solutions.com
+                    contact@bizmastersolutions.com
                   </a>
                 </li>
                 <li className="flex items-start gap-2">
