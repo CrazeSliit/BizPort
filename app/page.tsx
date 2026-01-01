@@ -110,7 +110,10 @@ export default function Home() {
                 )}
               </button>
 
-              <button className={`px-6 py-2.5 text-sm font-medium rounded-full transition-colors ${themeClasses.button}`}>
+              <button 
+                onClick={(e) => smoothScrollTo(e as any, '#contact')} 
+                className={`px-6 py-2.5 text-sm font-medium rounded-full transition-colors ${themeClasses.button}`}
+              >
                 GET STARTED
               </button>
             </div>
@@ -195,7 +198,13 @@ export default function Home() {
               >
                 CONTACT
               </a>
-              <button className={`w-full px-6 py-2.5 text-sm font-medium rounded-full transition-colors ${themeClasses.button} mt-2`}>
+              <button 
+                onClick={(e) => {
+                  smoothScrollTo(e as any, '#contact');
+                  setMobileMenuOpen(false);
+                }} 
+                className={`w-full px-6 py-2.5 text-sm font-medium rounded-full transition-colors ${themeClasses.button} mt-2`}
+              >
                 GET STARTED
               </button>
             </div>
@@ -230,11 +239,17 @@ export default function Home() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="px-8 py-4 border border-purple-500 text-purple-400 rounded-full hover:bg-purple-500/10 transition-colors text-sm font-medium tracking-wide">
-                View Portfolio →
+              <button 
+                onClick={(e) => smoothScrollTo(e as any, '#projects')} 
+                className="px-8 py-4 border border-purple-500 text-purple-400 rounded-full hover:bg-purple-500/10 transition-colors text-sm font-medium tracking-wide"
+              >
+                View Projects →
               </button>
-              <button className={`px-8 py-4 rounded-full transition-colors text-sm font-medium tracking-wide ${themeClasses.button}`}>
-                Schedule Consultation →
+              <button 
+                onClick={(e) => smoothScrollTo(e as any, '#contact')} 
+                className={`px-8 py-4 rounded-full transition-colors text-sm font-medium tracking-wide ${themeClasses.button}`}
+              >
+                Contact Us →
               </button>
             </div>
           </div>
@@ -735,181 +750,323 @@ export default function Home() {
             {/* Tech Categories */}
             <div className="space-y-16">
               {/* Web Development */}
-              <div className="p-8 rounded-3xl bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-transparent border border-purple-500/20">
-                <h4 className="text-2xl font-bold mb-8 text-purple-400 flex items-center gap-3">
+              <div className={`p-8 rounded-3xl border ${
+                theme === 'dark'
+                  ? 'bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-transparent border-purple-500/20'
+                  : 'bg-gradient-to-br from-purple-100/50 via-purple-50 to-transparent border-purple-300'
+              }`}>
+                <h4 className={`text-2xl font-bold mb-8 flex items-center gap-3 ${
+                  theme === 'dark' ? 'text-purple-400' : 'text-purple-600'
+                }`}>
                   <span className="text-4xl">🌐</span>
                   Web Development Main Technologies
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">⚛️</div>
-                    <div className="text-base font-semibold text-white">React.js</div>
-                    <div className="text-xs text-gray-400 mt-2">Frontend Library</div>
+                    <div className={`text-base font-semibold ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}>React.js</div>
+                    <div className={`text-xs mt-2 ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                    }`}>Frontend Library</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">▲</div>
-                    <div className="text-base font-semibold text-white">Next.js</div>
-                    <div className="text-xs text-gray-400 mt-2">React Framework</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Next.js</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>React Framework</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">💚</div>
-                    <div className="text-base font-semibold text-white">Vue.js</div>
-                    <div className="text-xs text-gray-400 mt-2">Progressive Framework</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Vue.js</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Progressive Framework</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🅰️</div>
-                    <div className="text-base font-semibold text-white">Angular</div>
-                    <div className="text-xs text-gray-400 mt-2">Platform Framework</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Angular</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Platform Framework</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🟢</div>
-                    <div className="text-base font-semibold text-white">Node.js</div>
-                    <div className="text-xs text-gray-400 mt-2">Runtime Environment</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Node.js</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Runtime Environment</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">📘</div>
-                    <div className="text-base font-semibold text-white">TypeScript</div>
-                    <div className="text-xs text-gray-400 mt-2">Typed JavaScript</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>TypeScript</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Typed JavaScript</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🎨</div>
-                    <div className="text-base font-semibold text-white">Tailwind CSS</div>
-                    <div className="text-xs text-gray-400 mt-2">Utility CSS</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Tailwind CSS</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Utility CSS</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🐍</div>
-                    <div className="text-base font-semibold text-white">Python/Django</div>
-                    <div className="text-xs text-gray-400 mt-2">Backend Framework</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Python/Django</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Backend Framework</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🔷</div>
-                    <div className="text-base font-semibold text-white">PostgreSQL</div>
-                    <div className="text-xs text-gray-400 mt-2">SQL Database</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>PostgreSQL</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>SQL Database</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🍃</div>
-                    <div className="text-base font-semibold text-white">MongoDB</div>
-                    <div className="text-xs text-gray-400 mt-2">NoSQL Database</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>MongoDB</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>NoSQL Database</div>
                   </div>
                 </div>
               </div>
 
               {/* Mobile App Development */}
-              <div className="p-8 rounded-3xl bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-transparent border border-purple-500/20">
-                <h4 className="text-2xl font-bold mb-8 text-purple-400 flex items-center gap-3">
+              <div className={`p-8 rounded-3xl border ${
+                theme === 'dark'
+                  ? 'bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-transparent border-purple-500/20'
+                  : 'bg-gradient-to-br from-purple-100/50 via-purple-50 to-transparent border-purple-300'
+              }`}>
+                <h4 className={`text-2xl font-bold mb-8 flex items-center gap-3 ${
+                  theme === 'dark' ? 'text-purple-400' : 'text-purple-600'
+                }`}>
                   <span className="text-4xl">📱</span>
                   Mobile App Main Technologies
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">📱</div>
-                    <div className="text-base font-semibold text-white">React Native</div>
-                    <div className="text-xs text-gray-400 mt-2">Cross-Platform</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>React Native</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Cross-Platform</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">⚡</div>
-                    <div className="text-base font-semibold text-white">Flutter</div>
-                    <div className="text-xs text-gray-400 mt-2">Dart Framework</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Flutter</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Dart Framework</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🍎</div>
-                    <div className="text-base font-semibold text-white">Swift</div>
-                    <div className="text-xs text-gray-400 mt-2">iOS Native</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Swift</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>iOS Native</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🤖</div>
-                    <div className="text-base font-semibold text-white">Kotlin</div>
-                    <div className="text-xs text-gray-400 mt-2">Android Native</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Kotlin</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Android Native</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">📲</div>
-                    <div className="text-base font-semibold text-white">Expo</div>
-                    <div className="text-xs text-gray-400 mt-2">Development Platform</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Expo</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Development Platform</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🔥</div>
-                    <div className="text-base font-semibold text-white">Firebase</div>
-                    <div className="text-xs text-gray-400 mt-2">Backend Service</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Firebase</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Backend Service</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🔔</div>
-                    <div className="text-base font-semibold text-white">Push Notifications</div>
-                    <div className="text-xs text-gray-400 mt-2">Real-time Alerts</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Push Notifications</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Real-time Alerts</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🗺️</div>
-                    <div className="text-base font-semibold text-white">Maps SDK</div>
-                    <div className="text-xs text-gray-400 mt-2">Location Services</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Maps SDK</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Location Services</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">💳</div>
-                    <div className="text-base font-semibold text-white">Payment Gateway</div>
-                    <div className="text-xs text-gray-400 mt-2">Secure Payments</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Payment Gateway</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Secure Payments</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🔐</div>
-                    <div className="text-base font-semibold text-white">OAuth/Biometric</div>
-                    <div className="text-xs text-gray-400 mt-2">Authentication</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>OAuth/Biometric</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Authentication</div>
                   </div>
                 </div>
               </div>
 
               {/* POS Systems */}
-              <div className="p-8 rounded-3xl bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-transparent border border-purple-500/20">
-                <h4 className="text-2xl font-bold mb-8 text-purple-400 flex items-center gap-3">
+              <div className={`p-8 rounded-3xl border ${
+                theme === 'dark'
+                  ? 'bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-transparent border-purple-500/20'
+                  : 'bg-gradient-to-br from-purple-100/50 via-purple-50 to-transparent border-purple-300'
+              }`}>
+                <h4 className={`text-2xl font-bold mb-8 flex items-center gap-3 ${
+                  theme === 'dark' ? 'text-purple-400' : 'text-purple-600'
+                }`}>
                   <span className="text-4xl">🏪</span>
                   POS Main Technologies
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">💻</div>
-                    <div className="text-base font-semibold text-white">Electron.js</div>
-                    <div className="text-xs text-gray-400 mt-2">Desktop Apps</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Electron.js</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Desktop Apps</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">⚛️</div>
-                    <div className="text-base font-semibold text-white">React Native</div>
-                    <div className="text-xs text-gray-400 mt-2">Mobile POS</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>React Native</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Mobile POS</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">💳</div>
-                    <div className="text-base font-semibold text-white">Stripe Terminal</div>
-                    <div className="text-xs text-gray-400 mt-2">Card Processing</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Stripe Terminal</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Card Processing</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🏪</div>
-                    <div className="text-base font-semibold text-white">Square API</div>
-                    <div className="text-xs text-gray-400 mt-2">Payment Solutions</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Square API</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Payment Solutions</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🖨️</div>
-                    <div className="text-base font-semibold text-white">Thermal Printer</div>
-                    <div className="text-xs text-gray-400 mt-2">Receipt Printing</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Thermal Printer</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Receipt Printing</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">📊</div>
-                    <div className="text-base font-semibold text-white">Inventory Mgmt</div>
-                    <div className="text-xs text-gray-400 mt-2">Stock Control</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Inventory Mgmt</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Stock Control</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">📱</div>
-                    <div className="text-base font-semibold text-white">Barcode Scanner</div>
-                    <div className="text-xs text-gray-400 mt-2">Product Scanning</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Barcode Scanner</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Product Scanning</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">☁️</div>
-                    <div className="text-base font-semibold text-white">Cloud Sync</div>
-                    <div className="text-xs text-gray-400 mt-2">Data Backup</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Cloud Sync</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Data Backup</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">📈</div>
-                    <div className="text-base font-semibold text-white">Sales Analytics</div>
-                    <div className="text-xs text-gray-400 mt-2">Business Insights</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Sales Analytics</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Business Insights</div>
                   </div>
-                  <div className="group p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400 transition-colors duration-200 text-center">
+                  <div className={`group p-8 rounded-2xl backdrop-blur-sm border transition-colors duration-200 text-center ${
+                    theme === 'dark'
+                      ? 'bg-black/40 border-purple-500/20 hover:border-purple-400'
+                      : 'bg-white/60 border-purple-300 hover:border-purple-500'
+                  }`}>
                     <div className="text-6xl mb-4">🔒</div>
-                    <div className="text-base font-semibold text-white">Offline Mode</div>
-                    <div className="text-xs text-gray-400 mt-2">No Internet Needed</div>
+                    <div className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Offline Mode</div>
+                    <div className={`text-xs mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>No Internet Needed</div>
                   </div>
                 </div>
               </div>
@@ -927,7 +1084,7 @@ export default function Home() {
 
       {/* Projects / Case Studies Section */}
       <section id="projects" className={`relative py-12 sm:py-16 md:py-20 lg:py-24 transition-colors duration-300 overflow-visible ${
-        theme === 'dark' ? 'bg-gradient-to-b from-black via-purple-950/10 to-black' : 'bg-gradient-to-b from-gray-50 via-purple-50 to-gray-50'
+        theme === 'dark' ? 'bg-gradient-to-b from-black via-purple-950/10 to-black' : 'bg-gradient-to-b from-white via-purple-50/50 to-white'
       }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 overflow-visible">
           {/* Section Header */}
@@ -2235,10 +2392,10 @@ export default function Home() {
           {/* Contact Cards Grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
             {/* Email Card */}
-            <div className={`group p-8 rounded-3xl transition-all duration-300 hover:bg-purple-900/20 text-center ${
+            <div className={`group p-8 rounded-3xl transition-all duration-300 text-center ${
               theme === 'dark' 
-                ? 'bg-gradient-to-br from-purple-900/10 to-transparent border border-purple-500/10 hover:border-purple-500/30' 
-                : 'bg-gradient-to-br from-purple-50 to-white border border-purple-200 hover:border-purple-400'
+                ? 'bg-gradient-to-br from-purple-900/10 to-transparent border border-purple-500/10 hover:border-purple-500/30 hover:bg-purple-900/20' 
+                : 'bg-gradient-to-br from-purple-50 to-white border-2 border-purple-300 hover:border-purple-500 hover:bg-purple-100/50'
             }`}>
               <div className={`w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform ${
                 theme === 'dark' ? 'bg-purple-500/20' : 'bg-purple-100'
@@ -2259,10 +2416,10 @@ export default function Home() {
             </div>
 
             {/* Call Card */}
-            <div className={`group p-8 rounded-3xl transition-all duration-300 hover:bg-purple-900/20 text-center ${
+            <div className={`group p-8 rounded-3xl transition-all duration-300 text-center ${
               theme === 'dark' 
-                ? 'bg-gradient-to-br from-purple-900/10 to-transparent border border-purple-500/10 hover:border-purple-500/30' 
-                : 'bg-gradient-to-br from-purple-50 to-white border border-purple-200 hover:border-purple-400'
+                ? 'bg-gradient-to-br from-purple-900/10 to-transparent border border-purple-500/10 hover:border-purple-500/30 hover:bg-purple-900/20' 
+                : 'bg-gradient-to-br from-purple-50 to-white border-2 border-purple-300 hover:border-purple-500 hover:bg-purple-100/50'
             }`}>
               <div className={`w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform ${
                 theme === 'dark' ? 'bg-purple-500/20' : 'bg-purple-100'
@@ -2283,10 +2440,10 @@ export default function Home() {
             </div>
 
             {/* Visit Card */}
-            <div className={`group p-8 rounded-3xl transition-all duration-300 hover:bg-purple-900/20 text-center ${
+            <div className={`group p-8 rounded-3xl transition-all duration-300 text-center ${
               theme === 'dark' 
-                ? 'bg-gradient-to-br from-purple-900/10 to-transparent border border-purple-500/10 hover:border-purple-500/30' 
-                : 'bg-gradient-to-br from-purple-50 to-white border border-purple-200 hover:border-purple-400'
+                ? 'bg-gradient-to-br from-purple-900/10 to-transparent border border-purple-500/10 hover:border-purple-500/30 hover:bg-purple-900/20' 
+                : 'bg-gradient-to-br from-purple-50 to-white border-2 border-purple-300 hover:border-purple-500 hover:bg-purple-100/50'
             }`}>
               <div className={`w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform ${
                 theme === 'dark' ? 'bg-purple-500/20' : 'bg-purple-100'
@@ -2308,10 +2465,10 @@ export default function Home() {
             </div>
 
             {/* LinkedIn Card */}
-            <div className={`group p-8 rounded-3xl transition-all duration-300 hover:bg-purple-900/20 text-center ${
+            <div className={`group p-8 rounded-3xl transition-all duration-300 text-center ${
               theme === 'dark' 
-                ? 'bg-gradient-to-br from-purple-900/10 to-transparent border border-purple-500/10 hover:border-purple-500/30' 
-                : 'bg-gradient-to-br from-purple-50 to-white border border-purple-400 hover:border-purple-500'
+                ? 'bg-gradient-to-br from-purple-900/10 to-transparent border border-purple-500/10 hover:border-purple-500/30 hover:bg-purple-900/20' 
+                : 'bg-gradient-to-br from-purple-50 to-white border-2 border-purple-300 hover:border-purple-500 hover:bg-purple-100/50'
             }`}>
               <div className={`w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform ${
                 theme === 'dark' ? 'bg-purple-500/20' : 'bg-purple-100'
