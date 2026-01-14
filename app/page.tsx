@@ -1,7 +1,14 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Dynamically import SplineViewer with no SSR for faster initial load
 const SplineViewer = dynamic(() => import('./components/SplineViewer'), {
@@ -17,6 +24,12 @@ export default function Home() {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // GSAP refs
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  const heroSubtitleRef = useRef<HTMLParagraphElement>(null);
+  const statsRef = useRef<HTMLDivElement[]>([]);
+  const servicesRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
     setMounted(true);
@@ -28,6 +41,68 @@ export default function Home() {
       // Set dark as default and save it
       localStorage.setItem('theme', 'dark');
     }
+
+    // GSAP Animations
+    // Hero section animation
+    if (heroTitleRef.current) {
+      gsap.from(heroTitleRef.current, {
+        opacity: 0,
+        y: 100,
+        duration: 1.2,
+        ease: 'power3.out',
+        delay: 0.2,
+      });
+    }
+
+    if (heroSubtitleRef.current) {
+      gsap.from(heroSubtitleRef.current, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power3.out',
+        delay: 0.5,
+      });
+    }
+
+    // Stats animation with counter
+    if (statsRef.current.length > 0) {
+      statsRef.current.forEach((stat, index) => {
+        gsap.from(stat, {
+          opacity: 0,
+          y: 50,
+          duration: 0.8,
+          ease: 'power3.out',
+          delay: 0.8 + index * 0.1,
+          scrollTrigger: {
+            trigger: stat,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        });
+      });
+    }
+
+    // Services animation
+    if (servicesRef.current.length > 0) {
+      servicesRef.current.forEach((service, index) => {
+        gsap.from(service, {
+          opacity: 0,
+          y: 80,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: service,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        });
+      });
+    }
+
+    // Cleanup
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
   }, []);
 
   const toggleTheme = useCallback(() => {
@@ -85,6 +160,9 @@ export default function Home() {
               </a>
               <a href="#projects" onClick={(e) => smoothScrollTo(e, '#projects')} className={`transition-colors text-sm font-medium tracking-wide ${themeClasses.link}`}>
                 PROJECTS
+              </a>
+              <a href="/gsap-demo" className={`transition-colors text-sm font-medium tracking-wide ${themeClasses.link}`}>
+                GSAP DEMO
               </a>
               <a href="#contact" onClick={(e) => smoothScrollTo(e, '#contact')} className={`transition-colors text-sm font-medium tracking-wide ${themeClasses.link}`}>
                 CONTACT
@@ -189,6 +267,13 @@ export default function Home() {
                 PROJECTS
               </a>
               <a 
+                href="/gsap-demo"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block py-2 text-sm font-medium tracking-wide transition-colors ${themeClasses.link}`}
+              >
+                GSAP DEMO
+              </a>
+              <a 
                 href="#contact" 
                 onClick={(e) => {
                   smoothScrollTo(e, '#contact');
@@ -223,7 +308,7 @@ export default function Home() {
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight tracking-tight mb-6 md:mb-8">
+            <h1 ref={heroTitleRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight tracking-tight mb-6 md:mb-8">
               BUSINESS
               <br />
               DEVELOPMENT
@@ -232,7 +317,7 @@ export default function Home() {
             </h1>
 
             {/* Subheading */}
-            <p className={`text-base sm:text-lg md:text-xl max-w-2xl mb-8 md:mb-12 leading-relaxed ${themeClasses.text}`}>
+            <p ref={heroSubtitleRef} className={`text-base sm:text-lg md:text-xl max-w-2xl mb-8 md:mb-12 leading-relaxed ${themeClasses.text}`}>
               Transforming businesses into industry leaders through integrated digital solutions, 
               systematic execution, and scalable technology infrastructure.
             </p>
@@ -290,7 +375,7 @@ export default function Home() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-12 md:mb-20">
-            <div className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
+            <div ref={(el) => { if (el) statsRef.current[0] = el; }} className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
               theme === 'dark' ? 'bg-gradient-to-br from-purple-900/20 to-purple-800/10 border-purple-500/10' : 'bg-gradient-to-br from-purple-100 to-purple-50 border-purple-200'
             }`}>
               <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-400 mb-1 sm:mb-2">10+</div>
@@ -298,7 +383,7 @@ export default function Home() {
                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
               }`}>Years Experience</div>
             </div>
-            <div className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
+            <div ref={(el) => { if (el) statsRef.current[1] = el; }} className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
               theme === 'dark' ? 'bg-gradient-to-br from-purple-900/20 to-purple-800/10 border-purple-500/10' : 'bg-gradient-to-br from-purple-100 to-purple-50 border-purple-200'
             }`}>
               <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-400 mb-1 sm:mb-2">500+</div>
@@ -306,7 +391,7 @@ export default function Home() {
                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
               }`}>Projects Delivered</div>
             </div>
-            <div className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
+            <div ref={(el) => { if (el) statsRef.current[2] = el; }} className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
               theme === 'dark' ? 'bg-gradient-to-br from-purple-900/20 to-purple-800/10 border-purple-500/10' : 'bg-gradient-to-br from-purple-100 to-purple-50 border-purple-200'
             }`}>
               <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-400 mb-1 sm:mb-2">200+</div>
@@ -314,7 +399,7 @@ export default function Home() {
                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
               }`}>Happy Clients</div>
             </div>
-            <div className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
+            <div ref={(el) => { if (el) statsRef.current[3] = el; }} className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-colors duration-300 ${
               theme === 'dark' ? 'bg-gradient-to-br from-purple-900/20 to-purple-800/10 border-purple-500/10' : 'bg-gradient-to-br from-purple-100 to-purple-50 border-purple-200'
             }`}>
               <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-400 mb-1 sm:mb-2">98%</div>
