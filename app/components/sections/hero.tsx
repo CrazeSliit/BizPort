@@ -110,9 +110,9 @@ export default function Hero({ theme, heroTitleRef, heroSubtitleRef, smoothScrol
           <div className="relative h-[500px] lg:h-[700px] flex items-center justify-center">
             <div className="relative w-full h-full rounded-3xl overflow-hidden">
               {/* 3D Spline viewer */}
-              <div className="absolute inset-0">
+              {/* <div className="absolute inset-0">
                 <SplineViewer url="https://prod.spline.design/k7M5quOXzDN948AN/scene.splinecode" />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
