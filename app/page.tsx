@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useCallback, useMemo, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -21,8 +21,14 @@ const SplineViewer = dynamic(() => import('./components/SplineViewer'), {
 });
 
 export default function Home() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  const [mounted, setMounted] = useState(false);
+  // Initialize theme directly from localStorage
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('theme') as 'light' | 'dark' | null;
+      return saved || 'dark';
+    }
+    return 'dark';
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // GSAP refs
@@ -31,78 +37,77 @@ export default function Home() {
   const statsRef = useRef<HTMLDivElement[]>([]);
   const servicesRef = useRef<HTMLDivElement[]>([]);
 
+  // Sync theme to localStorage only when it changes
   useEffect(() => {
-    setMounted(true);
-    // Load theme from localStorage on mount
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      // Set dark as default and save it
-      localStorage.setItem('theme', 'dark');
-    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
-    // GSAP Animations
-    // Hero section animation
-    if (heroTitleRef.current) {
-      gsap.from(heroTitleRef.current, {
-        opacity: 0,
-        y: 100,
-        duration: 1.2,
-        ease: 'power3.out',
-        delay: 0.2,
-      });
-    }
+  // GSAP animations - useLayoutEffect runs before paint for smoother animations
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero section animation
+      if (heroTitleRef.current) {
+        gsap.from(heroTitleRef.current, {
+          opacity: 0,
+          y: 100,
+          duration: 1.2,
+          ease: 'power3.out',
+          delay: 0.2,
+        });
+      }
 
-    if (heroSubtitleRef.current) {
-      gsap.from(heroSubtitleRef.current, {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: 'power3.out',
-        delay: 0.5,
-      });
-    }
-
-    // Stats animation with counter
-    if (statsRef.current.length > 0) {
-      statsRef.current.forEach((stat, index) => {
-        gsap.from(stat, {
+      if (heroSubtitleRef.current) {
+        gsap.from(heroSubtitleRef.current, {
           opacity: 0,
           y: 50,
-          duration: 0.8,
+          duration: 1,
           ease: 'power3.out',
-          delay: 0.8 + index * 0.1,
-          scrollTrigger: {
-            trigger: stat,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
+          delay: 0.5,
         });
-      });
-    }
+      }
 
-    // Services animation
-    if (servicesRef.current.length > 0) {
-      servicesRef.current.forEach((service, index) => {
-        gsap.from(service, {
-          opacity: 0,
-          y: 80,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: service,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
+      // Stats animation
+      if (statsRef.current.length > 0) {
+        statsRef.current.forEach((stat, index) => {
+          if (stat) {
+            gsap.from(stat, {
+              opacity: 0,
+              y: 50,
+              duration: 0.8,
+              ease: 'power3.out',
+              delay: 0.8 + index * 0.1,
+              scrollTrigger: {
+                trigger: stat,
+                start: 'top 85%',
+                toggleActions: 'play none none none',
+              },
+            });
+          }
         });
-      });
-    }
+      }
 
-    // Cleanup
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
+      // Services animation
+      if (servicesRef.current.length > 0) {
+        servicesRef.current.forEach((service) => {
+          if (service) {
+            gsap.from(service, {
+              opacity: 0,
+              y: 80,
+              duration: 0.8,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: service,
+                start: 'top 85%',
+                toggleActions: 'play none none none',
+              },
+            });
+          }
+        });
+      }
+    });
+
+    // Cleanup using gsap.context
+    return () => ctx.revert();
   }, []);
 
   const toggleTheme = useCallback(() => {
