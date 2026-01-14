@@ -29,6 +29,8 @@ export default function Hero({ theme, heroTitleRef, heroSubtitleRef, smoothScrol
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+        {/* Right upper corner spotlight */}
+        <div className="absolute -top-40 -right-40 w-[700px] h-[700px] bg-purple-300/25 rounded-full blur-[150px]"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 relative z-10">
@@ -105,32 +107,11 @@ export default function Hero({ theme, heroTitleRef, heroSubtitleRef, smoothScrol
           </div>
 
           {/* Right content - 3D Viewer or Visual */}
-          <div className="relative h-[400px] lg:h-[600px] flex items-center justify-center">
-            <div className="relative w-full h-full rounded-3xl overflow-hidden border border-purple-500/20 bg-gradient-to-br from-purple-900/20 to-transparent">
-              {/* Optional: Uncomment to add 3D Spline viewer */}
-              {/* <SplineViewer /> */}
-              
-              {/* Placeholder visual */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative">
-                  <div className="w-64 h-64 rounded-full bg-gradient-to-br from-purple-500/20 to-purple-900/20 blur-3xl animate-pulse"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <svg className="w-48 h-48 text-purple-500/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating elements */}
-              <div className="absolute top-10 left-10 px-4 py-2 bg-purple-500/10 backdrop-blur-sm rounded-lg border border-purple-500/20">
-                <p className="text-sm text-purple-400 font-medium">💡 Innovation</p>
-              </div>
-              <div className="absolute bottom-10 right-10 px-4 py-2 bg-purple-500/10 backdrop-blur-sm rounded-lg border border-purple-500/20">
-                <p className="text-sm text-purple-400 font-medium">🚀 Growth</p>
-              </div>
-              <div className="absolute top-1/2 right-10 px-4 py-2 bg-purple-500/10 backdrop-blur-sm rounded-lg border border-purple-500/20">
-                <p className="text-sm text-purple-400 font-medium">⚡ Performance</p>
+          <div className="relative h-[500px] lg:h-[700px] flex items-center justify-center">
+            <div className="relative w-full h-full rounded-3xl overflow-hidden">
+              {/* 3D Spline viewer */}
+              <div className="absolute inset-0">
+                <SplineViewer url="https://prod.spline.design/k7M5quOXzDN948AN/scene.splinecode" />
               </div>
             </div>
           </div>
