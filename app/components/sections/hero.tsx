@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 import dynamic from 'next/dynamic';
+import ParticlesBackground from '../ParticlesBackground';
 
 // Dynamically import SplineViewer with no SSR
 const SplineViewer = dynamic(() => import('../SplineViewer'), {
@@ -25,12 +26,22 @@ export default function Hero({ theme, heroTitleRef, heroSubtitleRef, smoothScrol
     <section className={`relative min-h-screen flex items-center justify-center overflow-hidden pt-20 ${
       theme === 'dark' ? 'bg-black' : 'bg-white'
     }`}>
-      {/* Background gradient effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Background gradient effects - lowest layer */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
         {/* Right upper corner spotlight */}
         <div className="absolute -top-40 -right-40 w-[700px] h-[700px] bg-purple-300/25 rounded-full blur-[150px]"></div>
+      </div>
+
+      {/* Theme overlay - above background, below particles */}
+      <div className={`absolute inset-0 z-[1] ${
+        theme === 'dark' ? 'bg-black/40' : 'bg-white/60'
+      }`}></div>
+      
+      {/* Particles Background - above overlay */}
+      <div className="absolute inset-0 z-[2]">
+        <ParticlesBackground theme={theme} />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 relative z-10">

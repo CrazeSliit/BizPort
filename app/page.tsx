@@ -11,15 +11,10 @@ if (typeof window !== 'undefined') {
 }
 
 export default function Home() {
-  // Initialize theme directly from localStorage
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('theme') as 'light' | 'dark' | null;
-      return saved || 'dark';
-    }
-    return 'dark';
-  });
+  // Initialize theme with consistent default to prevent hydration mismatch
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
   // GSAP refs
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
@@ -27,10 +22,21 @@ export default function Home() {
   const statsRef = useRef<HTMLDivElement[]>([]);
   const servicesRef = useRef<HTMLDivElement[]>([]);
 
-  // Sync theme to localStorage only when it changes
+  // Load theme from localStorage after component mounts (client-side only)
   useEffect(() => {
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    setMounted(true);
+    const saved = localStorage.getItem('theme') as 'light' | 'dark' | null;
+    if (saved) {
+      setTheme(saved);
+    }
+  }, []);
+
+  // Sync theme to localStorage when it changes
+  useEffect(() => {
+    if (mounted) {
+      localStorage.setItem('theme', theme);
+    }
+  }, [theme, mounted]);
 
   // GSAP animations - useLayoutEffect runs before paint for smoother animations
   useLayoutEffect(() => {
@@ -101,9 +107,7 @@ export default function Home() {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   }, [theme]);
 
   const smoothScrollTo = useCallback((e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
